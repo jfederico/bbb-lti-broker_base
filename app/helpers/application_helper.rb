@@ -1,3 +1,6 @@
+require 'helpers'
+include LtiToolProvider::Helpers
+
 module ApplicationHelper
 
   CAP_TO_DESCRIPTIONS = {
