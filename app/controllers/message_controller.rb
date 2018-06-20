@@ -14,7 +14,7 @@ class MessageController < ApplicationController
                                                 'The OAuth Signature was Invalid'
                                               when :invalid_nonce
                                                 'The nonce has already been used'
-                                              when :request_to_old
+                                              when :request_too_old
                                                 'The request is too old'
                                               else
                                                 'Unknown Error'
@@ -34,7 +34,8 @@ class MessageController < ApplicationController
     log_hash params
     # Redirect to external application if configured
     cookies[resource_handler] = { :value => @message.to_json, :expires => 30.minutes.from_now }
-    redirect_to lti_apps_url(params[:app], handler: resource_handler) unless params[:app] == 'default'
+    Rails.cache.write params[:oauth_nonce], @message
+    redirect_to lti_apps_url(params[:app], token: params[:oauth_nonce], handler: resource_handler) unless params[:app] == 'default'
   end
 
   def content_item_selection
