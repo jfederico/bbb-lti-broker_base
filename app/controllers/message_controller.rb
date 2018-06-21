@@ -34,7 +34,7 @@ class MessageController < ApplicationController
     log_hash params
     # Redirect to external application if configured
     cookies[resource_handler] = { :value => @message.to_json, :expires => 30.minutes.from_now }
-    Rails.cache.write params[:oauth_nonce], @message
+    Rails.cache.write params[:oauth_nonce], {message: @message, oauth: {consumer_key: params[:oauth_consumer_key], timestamp: params[:oauth_timestamp]} }
     redirect_to lti_apps_url(params[:app], token: params[:oauth_nonce], handler: resource_handler) unless params[:app] == 'default'
   end
 
