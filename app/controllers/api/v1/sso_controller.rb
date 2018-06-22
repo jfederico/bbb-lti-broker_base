@@ -10,17 +10,18 @@ class Api::V1::SsoController < ApplicationController
 
   private
 
-  def token_valid?
-    launch = Rails.cache.read params[:token]
-    if !launch
-      @error = {error: {key: 'token_invalid', message: 'The token does not exist'} }
-      return false
+    def token_valid?
+      launch = Rails.cache.read params[:token]
+      if !launch
+        @error = {error: {key: 'token_invalid', message: 'The token does not exist'} }
+        return false
+      end
+      if launch[:oauth][:timestamp].to_i < 30.minutes.ago.to_i
+        @error = {key: 'token_expired', message: 'The token has expired'}
+        return false
+      end
+      @message = launch[:message]
+      true
     end
-    if launch[:oauth][:timestamp].to_i < 30.minutes.ago.to_i
-      @error = {key: 'token_expired', message: 'The token has expired'}
-      return false
-    end
-    @message = launch[:message]
-    true
-  end
+
 end
