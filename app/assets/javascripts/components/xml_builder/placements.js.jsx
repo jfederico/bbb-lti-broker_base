@@ -20,7 +20,7 @@ XmlBuilder.Placements = React.createClass({
               <input type="checkbox" ref="cbSelectAll" onChange={this.selectAll}/>
             </th>
             <th>Title</th>
-            <th>Message Type</th>
+            <th>Modifiers</th>
           </tr>
           </thead>
           <tbody>
