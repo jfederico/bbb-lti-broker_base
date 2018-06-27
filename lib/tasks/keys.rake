@@ -1,4 +1,4 @@
-require 'helpers'
+require 'lti_tool_provider/helpers'
 include LtiToolProvider::Helpers
 
 namespace :db do
