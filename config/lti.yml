@@ -7,6 +7,9 @@ defaults: &defaults
       <<: *default
       root: apps
       secret: abcde-12345
+      oauth2_url: http://lti-dev/lti
+      oauth2_key: 0fad3e29c110af4a6a57b88ae1d072dcdc131622520cff130feea0a06418dc50
+      oauth2_secret: 84f647c6b06253b8a36383495b86f21a127de1bd5e0d9d60f84fad6d6307a0d8
 
     greenlight:
       <<: *default
