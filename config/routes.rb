@@ -4,8 +4,11 @@ LtiToolProvider::Application.routes.draw do
     namespace :api do
       namespace :v1 do
         get 'sso/launches/:token', to: 'sso#validate_launch', as: :sso_launches
+        get 'user', to: 'users#show', as: :user
       end
     end
+
+    use_doorkeeper
 
     post 'callback', to: 'collaboration_callbacks#confirm_url'
     delete 'callback', to: 'collaboration_callbacks#confirm_url'
@@ -28,9 +31,9 @@ LtiToolProvider::Application.routes.draw do
     post ':app/register', to: 'registration#register', as: :tool_registration
     post ':app/reregister', to: 'registration#register', as: :tool_reregistration
     post ':app/submit_capabilities', to: 'registration#save_capabilities', as: 'save_capabilities'
-    get ':app/submit_proxy/:registration_uuid', to: 'registration#submit_proxy', as: 'submit_proxy'
+    get  ':app/submit_proxy/:registration_uuid', to: 'registration#submit_proxy', as: 'submit_proxy'
 
-    get ':app/apps', to: 'apps#index', as: :lti_apps
+    get  ':app/launch', to: 'apps#index', as: :lti_apps
 
     mount RailsLti2Provider::Engine => "/rails_lti2_provider"
   end
