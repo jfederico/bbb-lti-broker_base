@@ -8,11 +8,26 @@ Doorkeeper.configure do
     # Put your resource owner authentication logic here.
     # Example implementation:
     #   User.find_by_id(session[:user_id]) || redirect_to(new_user_session_url)
-    if doorkeeper_token
-      User.new('1', 'John Doe', 'John', 'Doe', 'administrator')
+    #   User.find_by_id(session[:user_id]) || redirect_to(new_session_url(return_to: request.fullpath))
+    logger.info "--------------------------------------- 1.a"
+    logger.info params
+    launch = Rails.cache.read(params['token'])
+    if launch && DateTime.now.to_i < launch[:oauth][:timestamp].to_i + 60.minutes
+      logger.info "----------------- Authorization request -----------------------"
+      current_user = User.find_by(context: launch[:message].tool_consumer_instance_guid, uid: launch[:message].user_id) || User.new({id: '0'})
     else
-      User.new('0')
+      logger.info "---------------Token authorization----------------------"
+      current_user = User.new({id: '0'})
+      #fullpath = request.fullpath
+      #logger.info fullpath
+      ## Refer the HERE document at the bottom on why this session variable is being set.
+      #session[:user_return_to] = fullpath
+      #redirect_to(new_user_session_url(return_to: request.fullpath))
     end
+    logger.info "--------------------------------------- 1.b"
+    logger.info current_user.to_json
+    current_user
+    User.find(1)
   end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications,
@@ -189,6 +204,9 @@ Doorkeeper.configure do
   # skip_authorization do |resource_owner, client|
   #   client.superapp? or resource_owner.admin?
   # end
+  skip_authorization do
+    true
+  end
 
   # WWW-Authenticate Realm (default "Doorkeeper").
   #

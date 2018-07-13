@@ -14,7 +14,7 @@ class Api::V1::BaseController < ApplicationController
     end
 
     def find_user
-      logger.info "---------------------user----------------------"
+      logger.info "---------------------find_user----------------------"
       if doorkeeper_token
         logger.info "Doorkeeper token found"
         User.find(params[:id])

@@ -1,6 +1,5 @@
-class Api::V1::UsersController < BaseController
+class Api::V1::UsersController < Api::V1::BaseController
   before_action :doorkeeper_authorize!
-  respond_to :json
 
   def show
     if params[:id]
@@ -8,8 +7,7 @@ class Api::V1::UsersController < BaseController
     else
       user = current_user
     end
-    logger.info user.as_json
-    respond_with user.as_json(except: :password_digest)
+    render json: user.as_json(except: :password_digest)
   end
 
 end
