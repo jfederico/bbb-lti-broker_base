@@ -35,9 +35,7 @@ class MessageController < ApplicationController
     # Redirect to external application if configured
     Rails.cache.write(params[:oauth_nonce], {message: @message, oauth: {consumer_key: params[:oauth_consumer_key], timestamp: params[:oauth_timestamp]}})
     session[:user_id] = @current_user.id
-    serialized_token = api_v1_sso_launches_url(params[:oauth_nonce])
-    sso = tokenize(serialized_token, authorized_tools[params[:app]]["secret"], params[:app])
-    redirect_to lti_apps_path(params[:app], token: params[:oauth_nonce], handler: resource_handler, sso: sso) unless params[:app] == 'default'
+    redirect_to lti_apps_path(params[:app], token: params[:oauth_nonce], handler: resource_handler) unless params[:app] == 'default'
   end
 
   def content_item_selection
