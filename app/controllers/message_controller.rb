@@ -31,7 +31,6 @@ class MessageController < ApplicationController
 
   def basic_lti_launch_request
     process_message
-    log_hash params
     # Redirect to external application if configured
     Rails.cache.write(params[:oauth_nonce], {message: @message, oauth: {consumer_key: params[:oauth_consumer_key], timestamp: params[:oauth_timestamp]}})
     session[:user_id] = @current_user.id
