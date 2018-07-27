@@ -6,10 +6,12 @@ do
     sleep 1
 done
 
-# Precompile assets
-#    assets are precompiled on start because the root can change based on ENV["RELATIVE_URL_ROOT"]
+# Assets are precompiled on start because the root can change based on ENV["RELATIVE_URL_ROOT"]
+echo "Precompile assets..."
 bundle exec rake assets:precompile --trace
-# Database migrations
+
+echo "Database migrations..."
 bundle exec rake db:exists && bundle exec rake db:migrate || bundle exec rake db:setup
-# App starts
+
+echo "Start app..."
 bundle exec rails s -b 0.0.0.0 -p 3000

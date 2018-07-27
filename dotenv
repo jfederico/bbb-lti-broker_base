@@ -1,5 +1,5 @@
 # General configuration
-# SECRET_KEY_BASE=
+# SECRET_KEY_BASE=<rake secret>
 
 # Database configuration
 # DB_HOST=

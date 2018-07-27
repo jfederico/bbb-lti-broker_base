@@ -1,4 +1,5 @@
-FROM ruby:2.5.1
+# Base image:
+FROM ruby:2.5.0
 
 # app dependencies
 RUN apt-get update -qq && apt-get install -f -y build-essential libpq-dev nodejs postgresql-client
@@ -11,7 +12,6 @@ WORKDIR $APP_HOME
 
 # Add the app
 ADD . $APP_HOME
-EXPOSE 3000
 
 # Install app dependencies
 RUN bundle install --without development test doc --deployment --clean

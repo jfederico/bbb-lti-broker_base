@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.1'
+ruby '2.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.10'
@@ -59,6 +59,6 @@ gem 'lodash-rails', '~> 3.7.0'
 
 gem 'therubyracer'
 
-gem 'doorkeeper', '5.0.0.rc1'
+gem 'doorkeeper', '5.0.0.rc2'
 #gem 'doorkeeper', path: '../doorkeeper'
 #gem 'doorkeeper'
