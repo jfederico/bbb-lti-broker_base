@@ -1,5 +1,5 @@
 # Base image:
-FROM ruby:2.5.0
+FROM ruby:2.5.1
 
 # app dependencies
 RUN apt-get update -qq && apt-get install -f -y build-essential libpq-dev nodejs postgresql-client
