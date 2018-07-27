@@ -1,9 +1,9 @@
 #!/bin/bash
 
-while ! curl http://$DB_HOST:5432/ 2>&1 | grep '52'
+while ! pg_isready -h ${DB_HOST:-localhost} -p ${DB_PORT:-5432} > /dev/null 2> /dev/null;
 do
-  echo "Waiting for postgres to start up ..."
-  sleep 1
+    echo "Connecting to ${DB_HOST:-localhost} failed..."
+    sleep 1
 done
 
 # Precompile assets
