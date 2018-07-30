@@ -1,9 +1,9 @@
 upstream puma_rails_app {
-  server app:3000;
+  server app:3400;
 }
 
 server {
-  listen       80;
+  listen       8400;
 
   proxy_buffers 64 16k;
   proxy_max_temp_file_size 1024m;

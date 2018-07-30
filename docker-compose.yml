@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - '3000:3000'
+      - '3400:3400'
     depends_on:
       - db
     env_file: .env
@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: ./docker/web/Dockerfile
     ports:
-      - '80:80'
+      - '8400:8400'
     depends_on:
       - app
   db:
