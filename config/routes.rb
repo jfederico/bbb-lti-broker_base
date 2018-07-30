@@ -10,6 +10,9 @@ BbbLtiBroker::Application.routes.draw do
     end
 
     use_doorkeeper
+    #use_doorkeeper do
+    #  skip_controllers :applications
+    #end
 
     post 'callback', to: 'collaboration_callbacks#confirm_url'
     delete 'callback', to: 'collaboration_callbacks#confirm_url'

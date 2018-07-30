@@ -26,7 +26,5 @@ services:
     image: postgres:9.5
     volumes:
       - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
-      - "db-data:/var/lib/postgresql/data"
+      - "./db-data:/var/lib/postgresql/data"
     restart: on-failure
-volumes:
-  db-data:
