@@ -3,12 +3,16 @@ namespace :db do
     task :exists do
       begin
         Rake::Task['environment'].invoke
-        ActiveRecord::Base.connection
+        config = ActiveRecord::Base.connection_config
+        puts "DB adapter is " + config[:adapter]
+        unless config[:adapter] == 'sqlite3'
+          ActiveRecord::Base.connection
+        end 
       rescue
-        puts "It doesn't exist"
+        puts "Database does not exist..."
         exit 1
       else
-        puts "It does exist"
+        puts "Database already exists..."
         exit 0
       end
     end

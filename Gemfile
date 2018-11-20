@@ -5,8 +5,13 @@ ruby '2.5.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.10'
 
-# Use postgres as the database for Active Record
-gem "pg", "~> 0.21"
+# Include sqlite as the default database
+gem 'sqlite3', '~> 1.3'
+
+# Include postgres as the database for production
+group :production do
+  gem "pg", "~> 0.21"
+end
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'

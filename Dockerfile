@@ -2,7 +2,7 @@
 FROM ruby:2.5.1
 
 # app dependencies
-RUN apt-get update -qq && apt-get install -f -y build-essential libpq-dev nodejs postgresql-client
+RUN apt-get update -qq && apt-get install -f -y build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev libpq-dev nodejs postgresql-client
 
 ENV RAILS_ENV=production
 
