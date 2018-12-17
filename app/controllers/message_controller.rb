@@ -30,12 +30,13 @@ class MessageController < ApplicationController
   end
 
   def basic_lti_launch_request
+    log_hash(request.parameters.to_h)
     process_message
     unless params[:app] == 'default'
       # Redirect to external application if configured
-      Rails.cache.write(params[:oauth_nonce], {message: @message, oauth: {consumer_key: params[:oauth_consumer_key], timestamp: params[:oauth_timestamp]}})
+      Rails.cache.write(params[:oauth_nonce], {message: @message, oauth: {consumer_key: @consumer_key, timestamp: params[:oauth_timestamp]}})
       session[:user_id] = @current_user.id
-      redirect_to lti_apps_path(params[:app], sso: api_v1_sso_launch_url(params[:oauth_nonce]), handler: resource_handler)
+      redirect_to lti_apps_path(tenant: params[:tenant], app: params[:app], sso: api_v1_sso_launch_url(params[:oauth_nonce]), handler: resource_handler)
     end
   end
 

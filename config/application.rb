@@ -22,5 +22,10 @@ module BbbLtiBroker
 
     config.autoload_paths += %W(#{config.root}/lib)
     config.action_dispatch.default_headers.delete "X-Frame-Options"
+
+    config.lti_developer_mode_enabled = (ENV['DEVELOPER_MODE_ENABLED'] == 'true')
+    config.lti_default_tool = ENV['DEFAULT_LTI_TOOL'] || 'default'
+    # Check if a loadbalancer is configured.
+    config.loadbalanced_configuration = ENV["LOADBALANCER_ENDPOINT"].present? && ENV["LOADBALANCER_SECRET"].present?
   end
 end

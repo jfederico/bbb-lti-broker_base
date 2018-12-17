@@ -20,20 +20,10 @@ module ApplicationHelper
     end
   end
 
-  def log_div(seed, n)
-    div = seed
-    n.times do
-      div += seed
-    end
-    div
-  end
-
   def log_hash(h)
-    logger.info log_div('*', 100)
-    h.sort.map do |key, value|
-      logger.info "#{key}: " + value
-    end
-    logger.info log_div('*', 100)
+    puts "*" * 100
+    puts ( h.map{ |k,v| "#{k} => #{v}" }.sort )
+    puts "*" * 100
   end
 
   class CustomError < StandardError;
