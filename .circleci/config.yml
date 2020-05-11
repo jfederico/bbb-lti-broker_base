@@ -1,27 +1,44 @@
+---
 version: 2
 jobs:
   build:
-    machine: true
+    working_directory: ~/bbb-lti-broker
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
+          PGHOST: localhost
+          PGUSER: bbb-lti-broker
+          RAILS_ENV: test
+          DATABASE_URL: "postgresql://postgres:password@localhost"
+      - image: postgres:11
+        environment:
+          POSTGRES_PASSWORD: password
     steps:
       - checkout
-      - run: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-      - run: docker build -t bbb-lti-broker ./bbb-lti-broker
-      - run: docker images
-      - run: docker tag bbb-lti-broker $DOCKER_REPO/bbb-lti-broker
-      - run: docker push $DOCKER_REPO/bbb-lti-broker
 
-  test:
-    machine: true
-    steps:
-      - run: docker-compose pull 
-      - run: docker-compose run app rake db:create
-      - run: docker-compose run app rake db:migrate
-      - run: docker-compose run app rake db:seed
-      - run: docker-compose up -d
-      - run: docker-compose down
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
+      # Restore Cached Dependencies
+      - type: cache-restore
+        name: Restore bundle cache
+        key: bbb-lti-broker-{{ checksum "Gemfile.lock" }}
 
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Cache Dependencies
+      - type: cache-save
+        name: Store bundle cache
+        key: bbb-lti-broker-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Setup the environment
+      - run: cp dotenv .env
+
+      # Setup the database
+      - run: bundle exec rake db:setup
+
+      # Run the tests
+      - run: bundle exec rails test:db

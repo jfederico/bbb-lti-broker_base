@@ -1,0 +1,16 @@
+default: &default
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: bbb_lti_broker_development
+
+test:
+  <<: *default
+  database: bbb_lti_broker_test
+
+production:
+  <<: *default
+  database: bbb_lti_broker
