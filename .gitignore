@@ -35,3 +35,5 @@ process.yml
 # used to fake https for testing
 localhost.crt
 localhost.key
+
+public
