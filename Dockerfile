@@ -29,5 +29,4 @@ EXPOSE 3000
 #   The assets are precompiled in runtime because RELATIVE_URL_ROOT can be set up through .env
 
 # Run startup command
-#CMD ["scripts/start.sh"]
-CMD bundle exec rails server -b 0.0.0.0
+CMD ["scripts/start.sh"]
