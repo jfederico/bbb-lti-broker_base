@@ -84,7 +84,7 @@ Rails.application.configure do
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  config.hosts = ENV['WHITELIST_HOST'].presence || nil
+  config.hosts = ENV['WHITELIST_HOST'].presence
 
   config.react.variant = :production
 
