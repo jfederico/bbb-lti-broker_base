@@ -46,11 +46,16 @@ module AppsValidator
   end
 
   def lti_icon(app_name)
-    app = lti_app(app_name)
-    uri = URI.parse(app['redirect_uri'])
-    site = "#{uri.scheme}://#{uri.host}#{uri.port != 80 ? ':' + uri.port.to_s : ''}/"
-    path = uri.path.split('/')
-    path_base = (path[0].chomp(' ') == '' ? path[1] : path[0]).gsub('/', '') + '/'
-    "#{site}#{path_base + 'assets/icon.svg'}"
+    return "http://#{request.host_with_port}/#{'assets/icon.svg'}" if app_name == 'default'
+
+    begin
+      app = lti_app(app_name)
+      uri = URI.parse(app['redirect_uri'])
+      site = "#{uri.scheme}://#{uri.host}#{uri.port != 80 ? ':' + uri.port.to_s : ''}/"
+      path = uri.path.split('/')
+      path_base = (path[0].chomp(' ') == '' ? path[1] : path[0]).gsub('/', '') + '/'
+    rescue StandardError
+    end
+    "#{site}#{path_base + app_name + '/assets/icon.svg'}"
   end
 end
