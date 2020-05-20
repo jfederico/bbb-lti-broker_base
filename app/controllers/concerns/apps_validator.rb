@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RoomsValidator
+module AppsValidator
   include ActiveSupport::Concern
 
   def resource_handler(tc_instance_guid, params)
@@ -46,16 +46,11 @@ module RoomsValidator
   end
 
   def lti_icon(app_name)
-    unless app_name == 'default'
-      begin
-        app = lti_app(app_name)
-        uri = URI.parse(app['redirect_uri'])
-        site = "#{uri.scheme}://#{uri.host}#{uri.port ? ':' + uri.port.to_s : ''}/"
-        path = uri.path.split('/')
-        path_base = (path[0].chomp(' ') == '' ? path[1] : path[0]).gsub('/', '') + '/'
-      rescue StandardError
-      end
-    end
-    "#{site}#{path_base + app_name + '/rooms/assets/icon.svg'}"
+    app = lti_app(app_name)
+    uri = URI.parse(app['redirect_uri'])
+    site = "#{uri.scheme}://#{uri.host}#{uri.port != 80 ? ':' + uri.port.to_s : ''}/"
+    path = uri.path.split('/')
+    path_base = (path[0].chomp(' ') == '' ? path[1] : path[0]).gsub('/', '') + '/'
+    "#{site}#{path_base + 'assets/icon.svg'}"
   end
 end

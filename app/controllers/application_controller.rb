@@ -11,7 +11,7 @@ require 'addressable/uri'
 require 'oauth/request_proxy/action_controller_request'
 
 class ApplicationController < ActionController::Base
-  include RoomsValidator
+  include AppsValidator
 
   before_action :verify_auth
 
